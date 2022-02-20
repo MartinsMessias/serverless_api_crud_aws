@@ -1,0 +1,67 @@
+service: aws-python-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  
+  region: us-east-1
+  stage: dev
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:us-east-1:665146557351:table/clients
+
+functions:
+  get_clients:
+    handler: clients.get_clients.get_clients
+    events:
+      - httpApi:
+          path: /clients
+          method: get
+  get_client:
+    handler: clients.get_client.get_client
+    events:
+      - httpApi:
+          path: /clients/{id}
+          method: get
+  create_client:
+    handler: clients.create_client.create_client
+    events:
+      - httpApi:
+          path: /clients
+          method: post
+  update_client:
+    handler: clients.update_client.update_client
+    events:
+      - httpApi:
+          path: /clients/{id}
+          method: put
+  delete_client:
+    handler: clients.delete_client.delete_client
+    events:
+      - httpApi:
+          path: /clients/{id}
+          method: delete
+
+resources:
+  Resources:
+    ClientsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: clients
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
