@@ -9,7 +9,7 @@ authorLink: 'https://github.com/serverless'
 authorName: 'Serverless, inc.'
 authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 -->
-
+[![Deploy main branch](https://github.com/MartinsMessias/serverless_api_crud_aws/actions/workflows/aws.yml/badge.svg?branch=main)](https://github.com/MartinsMessias/serverless_api_crud_aws/actions/workflows/aws.yml)
 # Serverless Framework Python HTTP API on AWS
 ## Usage
 
