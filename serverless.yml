@@ -8,6 +8,9 @@ provider:
   region: us-east-1
   stage: dev
 
+  environment:
+    CLIENTS_TABLE: clients_${self:provider.stage}
+
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -16,7 +19,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:PutItem
         - dynamodb:DeleteItem
-      Resource: arn:aws:dynamodb:us-east-1:665146557351:table/clients
+      Resource: "arn:aws:dynamodb:us-east-1:665146557351:table/${self:provider.environment.CLIENTS_TABLE}"
 
 functions:
   get_clients:
@@ -55,7 +58,7 @@ resources:
     ClientsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: clients
+        TableName: ${self:provider.environment.CLIENTS_TABLE}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
